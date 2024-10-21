@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  patient
+  doctor
+}
+
+enum Gender {
+  male
+  female
+}
+
+enum Status {
+  pending
+  accepted
+  rejected
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  fullname      String
+  username      String         @unique
+  password      String
+  role          Role
+  gender        Gender
+  phone         String
+  address       String
+  profilePic    String?
+  articles      Article[]
+  consultations Consultation[]
+  reservasis    Reservation[]
+}
+
+model Article {
+  id         Int       @id @default(autoincrement())
+  title      String
+  picture    String?
+  content    String
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   Int
+  categoryId Int?
+  createdAt  DateTime  @default(now())
+  Category   Category? @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  articles Article[]
+}
+
+model Consultation {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime @default(now())
+}
+
+model Reservation {
+  id               Int      @id @default(autoincrement())
+  fullname         String
+  phone            String
+  birthdate        String
+  age              String
+  height           String
+  weight           String
+  gender           Gender
+  subject          String
+  consultationDate String
+  Description      String
+  status           Status   @default(pending)
+  doctorId         Int?
+  message          String?
+  patient          User     @relation(fields: [patientId], references: [id])
+  patientId        Int
+  createdAt        DateTime @default(now())
+}

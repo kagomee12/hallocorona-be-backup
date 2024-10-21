@@ -5,24 +5,18 @@ import {
   Body,
   Param,
   Delete,
-  UseGuards,
   Query,
   Request,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
-import { Roles } from '../guard/roles.decorator';
-import { AuthGuard } from '../auth/auth.guard';
-import { RolesGuard } from '../guard/roles.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) { }
 
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles('doctor')
   @Post()
   @UseInterceptors(FileInterceptor('picture'))
   create(
@@ -72,8 +66,6 @@ export class ArticleController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles('patient')
   remove(@Param('id') id: string) {
     return this.articleService.remove(+id);
   }

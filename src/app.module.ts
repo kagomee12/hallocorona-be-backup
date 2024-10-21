@@ -12,7 +12,7 @@ import { ArticleModule } from './article/article.module';
     ClodinaryModule,
     UsersModule,
     AuthModule,
-    ArticleModule
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

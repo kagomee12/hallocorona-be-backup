@@ -10,6 +10,6 @@ export class AppService {
 
 
   async getHello() {
-    return this.prismaService.user.findMany();
+    return "hello bang"
   }
 }

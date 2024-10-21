@@ -1,14 +1,13 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
   Query,
   Request,
-  UploadedFile,
-  UseInterceptors,
+  UploadedFile
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 
@@ -18,7 +17,6 @@ export class ArticleController {
 
   @Post()
   create(
-
     @Body()
     createArticleDto: {
       title: string;

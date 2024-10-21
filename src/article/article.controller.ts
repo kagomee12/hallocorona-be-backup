@@ -11,15 +11,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) { }
 
   @Post()
-  @UseInterceptors(FileInterceptor('picture'))
   create(
+
     @Body()
     createArticleDto: {
       title: string;
